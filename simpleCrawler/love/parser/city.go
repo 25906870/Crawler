@@ -6,7 +6,7 @@ import (
 	"simpleCrawler/common"
 )
 
-const CityReg = `<a \S* href="(http://www.zhenai.com/zhenghun/[0-9a-z]+)"[^>]*>([^<]+)</a>`
+const CityReg = `<a [^h]*href="(http://[a-zA-Z]{1,5}.zhenai.com/zhenghun/[0-9a-z]+)"[^>]*>([^<]+)</a>`
 
 func ParserCityList(contents []byte) common.ParseResult {
 	re := regexp.MustCompile(CityReg)

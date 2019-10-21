@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"regexp"
 
 	"simpleCrawler/common"
@@ -9,37 +11,31 @@ import (
 	. "simpleCrawler/love/parser"
 )
 
+func PostMantest() bool {
+	url := "http://www.zhenai.com/zhenghun"
+
+	req, _ := http.NewRequest("GET", url, nil)
+
+	req.Header.Add("cache-control", "no-cache")
+	req.Header.Add("postman-token", "de188d59-71db-8e67-e376-139eb3fade0f")
+
+	res, _ := http.DefaultClient.Do(req)
+
+	defer res.Body.Close()
+	body, _ := ioutil.ReadAll(res.Body)
+
+	engine.Wloghtml(body)
+	return true
+}
+
 func main() {
 
 	engine.Run(common.Request{
-		Url:        "http://www.zhenai.com/zhenhun",
+		Url:        "http://www.zhenai.com/zhenghun",
 		ParserFunc: ParserCityList,
 	})
 	return
-	// req := new(common.Request)
-	// req.Url = "d"
-	// resp, err := http.Get("http://www.zhenai.com/zhenhun")
 
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	// defer resp.Body.Close()
-
-	// if resp.StatusCode == http.StatusOK {
-
-	// 	ed := determineEncoding(resp.Body)
-	// 	uReader := transform.NewReader(resp.Body, ed.NewDecoder())
-	// 	bd, err := ioutil.ReadAll(uReader)
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-
-	// 	fmt.Printf("%s\n", bd)
-	// 	ParserCityList(bd)
-	// } else {
-	// 	fmt.Printf("error :", resp.StatusCode)
-	// }
 }
 
 func processCityList(contents []byte) {

@@ -6,16 +6,26 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"time"
 
 	//. "simpleCrawler/love/parser"
 
+	"github.com/pborman/uuid"
 	"golang.org/x/net/html/charset"
 	"golang.org/x/text/encoding"
+	"golang.org/x/text/encoding/unicode"
 	"golang.org/x/text/transform"
 )
 
 func Fetch(url string) ([]byte, error) {
-	resp, err := http.Get(url)
+	time.Sleep(time.Second)
+	req, _ := http.NewRequest("GET", url, nil)
+
+	u1 := uuid.NewUUID()
+	uustr := fmt.Sprintf("%s", u1)
+	req.Header.Add("cache-control", "no-cache")
+	req.Header.Add("postman-token", uustr)
+	resp, err := http.DefaultClient.Do(req)
 
 	if err != nil {
 		return nil, err
@@ -41,15 +51,10 @@ func determineEncoding(r io.Reader) encoding.Encoding {
 	bytes, err := bufio.NewReader(r).Peek(1024)
 
 	if err != nil {
-		panic(err)
+		return unicode.UTF8
 	}
 
-	e, _, certain := charset.DetermineEncoding(bytes, "")
-
-	if certain == true {
-		return e
-	}
+	e, _, _ := charset.DetermineEncoding(bytes, "")
 
 	return e
-	//return unicode.UTF8
 }
