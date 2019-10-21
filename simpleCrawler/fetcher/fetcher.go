@@ -3,7 +3,6 @@ package fetcher
 import (
 	"bufio"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -41,14 +40,16 @@ func Fetch(url string) ([]byte, error) {
 		// outstring = ParserCityList(bd)
 	}
 
-	ed := determineEncoding(resp.Body)
-	uReader := transform.NewReader(resp.Body, ed.NewDecoder())
+	nReader := bufio.NewReader(resp.Body)
+
+	ed := determineEncoding(nReader)
+	uReader := transform.NewReader(nReader, ed.NewDecoder())
 	return ioutil.ReadAll(uReader)
 
 }
 
-func determineEncoding(r io.Reader) encoding.Encoding {
-	bytes, err := bufio.NewReader(r).Peek(1024)
+func determineEncoding(r *bufio.Reader) encoding.Encoding {
+	bytes, err := r.Peek(1024)
 
 	if err != nil {
 		return unicode.UTF8
