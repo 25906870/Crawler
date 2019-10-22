@@ -1,11 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"net/http"
-	"regexp"
-
+	_ "net/http/pprof"
 	"simpleCrawler/common"
 	"simpleCrawler/engine"
 	. "simpleCrawler/love/parser"
@@ -30,25 +28,15 @@ func PostMantest() bool {
 
 func main() {
 
+	// go func() {
+	// 	http.ListenAndServe("localhost:12351", nil)
+	// }()
+
 	engine.Run(common.Request{
 		Url:        "http://www.zhenai.com/zhenghun",
 		ParserFunc: ParserCityList,
 	})
+
 	return
 
-}
-
-func processCityList(contents []byte) {
-	re := regexp.MustCompile(`<a \S* href="(http://www.zhenai.com/zhenghun/[0-9a-z]+)"[^>]*>([^<]+)</a>`)
-
-	matches := re.FindAllSubmatch(contents, -1)
-
-	for _, m := range matches {
-		//for _, sbm := range m
-		{
-			fmt.Printf("City:%5s ,URL: %s \n", m[2], m[1])
-		}
-
-	}
-	fmt.Printf("Matches Nums %d\n", len(matches))
 }
