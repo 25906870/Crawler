@@ -5,3 +5,4 @@ pkg/sumdb/
 *.exe
 log/
 go.sum
+*.html
