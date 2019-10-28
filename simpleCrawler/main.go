@@ -22,7 +22,7 @@ func PostMantest() bool {
 	defer res.Body.Close()
 	body, _ := ioutil.ReadAll(res.Body)
 
-	engine.Wloghtml(body)
+	common.Wloghtml(body)
 	return true
 }
 

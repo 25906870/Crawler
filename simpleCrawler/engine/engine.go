@@ -29,13 +29,13 @@ func Run(seeds ...Request) {
 			if len(body) > 0 {
 				Wloghtml(body)
 			}
-			break
+
 			ParseResult := r.ParserFunc(body)
 			requests = append(requests, ParseResult.Request...)
 
-			for _, item := range ParseResult.Items {
-				log.Printf("Got item %v", item)
-			}
+			// for _, item := range ParseResult.Items {
+			// 	log.Printf("Got item %v", item)
+			// }
 		}
 		time.Sleep(time.Second)
 	}

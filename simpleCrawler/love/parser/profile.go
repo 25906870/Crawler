@@ -15,12 +15,12 @@ var linknameRe = regexp.MustCompile(`<th><a href="http://album.zhenai.com/u/([^"
 var ageRe = regexp.MustCompile(`<td[^>]*><span [^>]*>年龄：</span>([\d]+)</td>`)
 var genderRe = regexp.MustCompile(`<td [^>]*><span [^>]*>性别：</span>([^<]+)</td>`)
 var marrRe = regexp.MustCompile(`<td[^>]*><span [^>]*>婚况：</span>([^<]+)</td>`)
-var HeightRe = regexp.MustCompile(`<td [^>]*><span [^>]*>身&nbsp;&nbsp;&nbsp;高：</span>([\d]+)</td>`)
-var WeightRe = regexp.MustCompile(`<td [^>]*><span [^>]*>婚况：</span>([^<]+)</td>`)
+var HeightRe = regexp.MustCompile(`<td [^>]*><span [^>]*>身[^高]*高：</span>([\d]+)</td>`)
+var edu = regexp.MustCompile(`<td [^>]*><span [^>]*>学[^历]*历：</span>([^<]+)</td>`)
 
 const ItemCount = 3
 
-func ParserProfile(contents []byte) common.ParserResult {
+func ParserProfile(contents []byte) common.ParseResult {
 
 	result := common.ParseResult{}
 	itRegxp := regexp.MustCompile(ItemRe)
@@ -43,6 +43,13 @@ func ParserProfile(contents []byte) common.ParserResult {
 			fmt.Printf("submatch %v", err)
 		}
 
+		prf.Gender = submatch(itemlist[index], genderRe)
+		prf.Marriage = submatch(itemlist[index], marrRe)
+		prf.Education = submatch(itemlist[index], edu)
+		prf.Height, err = strconv.Atoi(submatch(itemlist[index], HeightRe))
+		if err != nil {
+			prf.Height = 100
+		}
 		bt, err := json.Marshal(prf)
 
 		if err == nil {

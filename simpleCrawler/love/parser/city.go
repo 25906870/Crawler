@@ -20,7 +20,7 @@ func ParserCityList(contents []byte) common.ParseResult {
 		result.Items = append(result.Items, string(m[2]))
 		result.Request = append(result.Request, common.Request{
 			Url:        string(m[1]),
-			ParserFunc: common.NilParser,
+			ParserFunc: ParserProfile,
 		})
 		//outstr = append(outstr, string(m[1]))
 
