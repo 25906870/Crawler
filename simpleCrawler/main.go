@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	_ "net/http/pprof"
@@ -31,7 +32,17 @@ func main() {
 	// go func() {
 	// 	http.ListenAndServe("localhost:12351", nil)
 	// }()
-
+	ch := make(chan int)
+	go func() {
+		fmt.Printf("ddd")
+	}()
+	testmap1 := map[int64]uint8{
+		0: 1,
+	}
+	testmap2 := make(map[int64]string)
+	fmt.Printf("%v|%v|%v", testmap1, testmap2)
+	ch <- 1
+	return
 	engine.Run(common.Request{
 		Url:        "http://www.zhenai.com/zhenghun",
 		ParserFunc: ParserCityList,
