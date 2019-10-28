@@ -20,7 +20,7 @@ var WeightRe = regexp.MustCompile(`<td [^>]*><span [^>]*>婚况：</span>([^<]+)
 
 const ItemCount = 3
 
-func ParserProfile(contents []byte) common.ParserResult {
+func ParserProfile(contents []byte) common.ParseResult {
 
 	result := common.ParseResult{}
 	itRegxp := regexp.MustCompile(ItemRe)
