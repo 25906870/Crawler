@@ -6,3 +6,4 @@ pkg/sumdb/
 log/
 go.sum
 *.html
+localtest/
