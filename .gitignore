@@ -5,5 +5,14 @@ pkg/sumdb/
 *.exe
 log/
 go.sum
+*.sum
 *.html
 localtest/
+
+# add commit file
+!*.go
+!*.bat
+!*.sh
+!*.md
+!.gitignore
+simpleCrawler/go.sum
