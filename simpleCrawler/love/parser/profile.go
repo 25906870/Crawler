@@ -20,7 +20,7 @@ var edu = regexp.MustCompile(`<td [^>]*><span [^>]*>学[^历]*历：</span>([^<]
 
 const ItemCount = 3
 
-func ParserProfile(contents []byte) common.ParseResult {
+func ParserProfile(contents []byte, strname string) common.ParseResult {
 
 	result := common.ParseResult{}
 	itRegxp := regexp.MustCompile(ItemRe)
@@ -35,6 +35,7 @@ func ParserProfile(contents []byte) common.ParseResult {
 		if len(link_name) > 1 {
 			prf.Name = string(link_name[0]) + "_" + string(link_name[1])
 		}
+		prf.Name = strname
 
 		age, err := strconv.Atoi(submatch(itemlist[index], ageRe))
 		if err == nil {

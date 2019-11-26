@@ -36,6 +36,7 @@ func NilParser([]byte) ParseResult {
 }
 
 func Wloghtml(ctx []byte) {
+	return
 	filename := time.Now()
 
 	filestr := filename.Format("2006-01-02_15_04_05.000000") + ".html"
